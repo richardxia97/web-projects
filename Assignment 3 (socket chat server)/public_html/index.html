@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf8"/>
+	<title>Socket.IO template</title>
+	<link rel="stylesheet" href="style.css"/>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="client.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		
+	<script>
+	$(document).ready(function(){
+      var userName = prompt("What's your name?")||"User";
+	  onReady(userName);
+	});
+	</script>
+
+</head>
+
+<body>		
+	<div id = "contents">
+	<div id = "chatLogDiv">
+	<textarea id="chatLog">	
+	</textarea>
+	</div>
+	<div id = "userListDiv">
+	<ul id = "connectedUsers">
+	</ul>
+	</div>
+	</div>
+	<input id="inputText">	
+	<div id = "testDiv">
+	</div>	
+</body>
+</html>
