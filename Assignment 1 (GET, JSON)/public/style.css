@@ -1,0 +1,51 @@
+
+body{
+	background-color:#222;
+	color:#8cc;
+}
+
+#heroInfo{
+    height: 600px;
+	width: 18%;
+	color: silver;
+	border: solid 3px silver;
+	border-radius: 25px;
+	border-style: solid;
+	padding: 10px;
+	background-color:silver|transparent;
+	overflow:hidden;
+}
+
+#name{
+    height: 25px;
+    width: 150px;
+    background-color: white;
+	color:black;
+}
+
+#alterEgo{
+    height: 25px;
+    width: 150px;
+    background-color: white;
+	color:black;
+}
+
+#jurisdiction{
+    height: 50px;
+    width: 150px;
+    background-color: white;
+	color:black;
+}
+#superpowers{
+    height:250px;
+    width: 150px;
+    background-color: white;
+	color:black;
+}
+
+
+h1  {
+
+}
+
+

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf8"/>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<script>
+	<!-- On Load handler: at the initial load, send request to retrieve all heroes. To initiate the application, --> 
+	<!-- a user should request the root directory of the page and be served with the index.html of the app. -->
+		 
+		function startup(){
+			var hideDiv = document.getElementById('heroInfo');
+			hideDiv.style.display = "block";
+			var username = "allHeroes";			
+			var xhr = new XMLHttpRequest();
+			var myArr;
+			// when the response text is read, JSON parse() is used to parse JSON response.
+			xhr.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					myArr = JSON.parse(this.responseText);
+				}				
+			};		
+			// send GET request to server.
+			xhr.open("GET","/hero?username="+username,false);
+			xhr.send();
+			var data = JSON.parse(xhr.responseText);
+			
+			// from the response for all Heroes query, display hero name as option
+			if (username == "allHeroes"){
+				for (i = 0; i < data.length; i++) {
+					var z = document.createElement("option");
+					var names = data[i].split(".");
+					z.setAttribute("value",names[0]);
+					// convert "Wonder_Woman" to "Wonder Woman"
+					var displayName = names[0].replace(/_/i, " ");
+					var t = document.createTextNode(displayName);
+					z.appendChild(t);
+					document.getElementById("myselect").appendChild(z);
+				}
+			}						
+		}
+		
+		<!-- Onclick view button, and send request server to retrieve the info about heroes. --> 
+		function view() {
+			var showDiv = document.getElementById("heroInfo");
+			var currentHero = document.getElementById("myselect");
+			if (currentHero != null){
+			  // query json object files of a special json.
+			  var name = currentHero.value + ".json";		 		 
+			  var xhttp = new XMLHttpRequest();
+			  xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+				  // parse the JSON response 
+				  var data = JSON.parse(xhttp.responseText);	
+				  if(data.name){	
+					// e.g convert "Wonder_Woman" to "Wonder Woman"			  
+					var displayName = data.name.replace(/_/i, " ");
+					document.getElementById("heroInfo").style.backgroundColor = data.style.backgroundColor;
+					document.getElementById("name").innerHTML = data.name;
+					document.getElementById("p_name").style.color = data.style.color;
+					document.getElementById("alterEgo").innerHTML = data.alterEgo;
+					document.getElementById("p_alterEgo").style.color = data.style.color;
+					document.getElementById("jurisdiction").innerHTML = data.jurisdiction;
+					document.getElementById("p_jurisdiction").style.color = data.style.color;
+					if (data.style.borderColor != null) {
+						document.getElementById("heroInfo").style.borderColor = data.style.borderColor;
+					}
+					else {
+						document.getElementById("heroInfo").style.borderColor = "silver";
+					}
+                    // 	converts superpowers to display format?					
+					var len;
+					var line = "";
+					for (var i = 0, len = data.superpowers.length; i < len; i++) {
+					  if (line.length > 0)
+					  {
+						 line += "<br>";
+					  }
+					  line += data.superpowers[i];
+					}
+
+					document.getElementById("superpowers").innerHTML = line;
+					document.getElementById("p_superpowers").style.color = data.style.color;
+					
+				  }
+				}
+			  };
+			  xhttp.open("GET","/hero?username="+name,false);
+			  xhttp.send();
+			  }
+		
+		}
+		
+	</script>
+</head>
+
+	<!-- On Load handling: at the initial load, send request to retrieve all heroes. To initiate the application, --> 
+	<!-- a user should request the root directory of the page and be served with the index.html of the app. -->
+
+<body onload="startup()">
+	<h1>Comp2406 A1 Hero Database!</h1>	
+	
+    <!-- Display the select options of heroes --> 
+	<div>
+	<select id = "myselect">
+	</select>	
+	</div>	
+    <p/>
+	<p/>
+	<p/>
+	<!-- Display the json response for the selected hero from drop list --> 
+	<div>
+	<button onclick="view()">View</button>
+	</div>
+    <p/>
+	<hr/>
+	
+    <!-- The information of a hero based on the response text of Get request. --> 
+	<div id='heroInfo' class="w3-container">		
+		<div>
+		<p id = "p_name">
+			Name:
+		</p>			
+			<p id = "name">
+			</p>
+		</div>
+		
+		<div>
+		<p id = "p_alterEgo">
+		Alter Ego:		
+		</p>
+		
+			<p id = "alterEgo">
+			</p>
+		
+		</div>
+		
+		<div>
+		<p id = "p_jurisdiction">
+			Jurisdiction:
+		</p>
+ 
+			<p id = "jurisdiction">
+			
+		</p>
+		</div>
+		
+		<div>
+		<p id = "p_superpowers">
+			Superpowers: 
+		</p>		
+		<p id = "superpowers">
+			
+		</p>
+		</div>
+	</div>
+	<script>
+
+</script>
+
+</body>
+</html>
